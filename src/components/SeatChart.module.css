@@ -1,4 +1,10 @@
-/* .seatChart__Container {
-  display: grid;
+.container {
+  width: 90%;
 
-} */
+}
+
+.grid {
+  display: grid;
+  width: 0 auto;
+  grid-gap: 1rem 1rem;
+}
