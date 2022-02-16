@@ -3,8 +3,10 @@ import StudentDesk from "./StudentDesk";
 import classes from "./SeatChart.module.css";
 
 const SeatChart = () => {
-  const [rows, setRows] = useState()
-  const [columns, setColumns] = useState()
+  const [rows, setRows] = useState(4)
+  const [columns, setColumns] = useState(5)
+
+  const numberOfDesks = rows * columns;
 
   const rowsChangeHandler = (state) => {
     setRows(state.target.value)
@@ -14,13 +16,15 @@ const SeatChart = () => {
     setColumns(state.target.value)
   }
 
+  const totalDesks = [...Array(numberOfDesks)].map((element, index) => <StudentDesk key={index}/>)
+
   return (
     <Fragment>
       <form>
         <label htmlFor="rows">Rows</label>
-        <input onClick={rowsChangeHandler} id="z" type="number" />
+        <input onChange={rowsChangeHandler} id="z" type="number" value={rows}/>
         <label htmlFor="columns">Columns</label>
-        <input onClick={columnsChangeHandler} id="x" type="number" />
+        <input onChange={columnsChangeHandler} id="x" type="number" value={columns}/>
       </form>
       <div className={classes.container}>
         <div
@@ -30,18 +34,7 @@ const SeatChart = () => {
             gridTemplateRows: `repeat(${rows}, 1fr)`,
           }}
         >
-          <StudentDesk />
-          <StudentDesk />
-          <StudentDesk />
-          <StudentDesk />
-          <StudentDesk />
-          <StudentDesk />
-          <StudentDesk />
-          <StudentDesk />
-          <StudentDesk />
-          <StudentDesk />
-          <StudentDesk />
-          <StudentDesk />
+          {totalDesks}
         </div>
       </div>
     </Fragment>
