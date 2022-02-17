@@ -4,4 +4,5 @@
   border: none;
   border-radius: 0.25rem;
   background-color: rgb(248, 229, 176);
+  transition: all 0.2s ease-in-out;
 }

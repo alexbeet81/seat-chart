@@ -1,11 +1,31 @@
 import { Fragment, useState } from "react";
 import StudentDesk from "./StudentDesk";
-import StudentCard from "./StudentCard";
+// import StudentCard from "./StudentCard";
 import classes from "./SeatChart.module.css";
+
+import { swapDesk } from "../functions/swap-desk";
 
 // fake data
 import { DUMMY_STUDENTS } from "../DUMMY_DATA/dummy-students";
 
+// const swapDesk = (id) => {
+//   if (!id) {
+//     return null;
+//   }
+
+//   const student = DUMMY_STUDENTS.filter((student) => student.id === id);
+
+//   console.log(student);
+
+//   return (
+    
+//       <StudentCard
+//         id={student[0].id}
+//         number={student[0].studentNumber}
+//         name={student[0].name}
+//       />
+//   );
+// };
 
 const renderDesk = (index, students, columns) => {
   // create an empty array.
@@ -14,22 +34,23 @@ const renderDesk = (index, students, columns) => {
   // create an index that is constant from row to row
   const constantIndex = index * columns;
 
-
   // populate rowOfDesks equal to the length of the each row - using columns
   for (let i = 0; i < columns; i++) {
     const studentIndex = constantIndex + i;
     if (students[studentIndex] !== undefined) {
-      let desk = (
-        <StudentDesk key={studentIndex}>
-          <StudentCard
-            number={students[studentIndex].studentNumber}
-            name={students[studentIndex].name}
-          />
-        </StudentDesk>
-      );
+      let desk = <StudentDesk key={index}>{swapDesk(students[studentIndex].id, index, DUMMY_STUDENTS)}</StudentDesk>;
+      // let desk = (
+      //   <StudentDesk key={studentIndex}>
+      //     <StudentCard
+      //       id={students[studentIndex].id}
+      //       number={students[studentIndex].studentNumber}
+      //       name={students[studentIndex].name}
+      //     />
+      //   </StudentDesk>
+      // );
       rowOfDesks.push(desk);
     } else {
-      rowOfDesks.push(<StudentDesk key={studentIndex}>{null}</StudentDesk>);
+      rowOfDesks.push(<StudentDesk key={index}>{swapDesk(null)}</StudentDesk>);
     }
   }
   return rowOfDesks;
