@@ -3,92 +3,41 @@ import StudentDesk from "./StudentDesk";
 import StudentCard from "./StudentCard";
 import classes from "./SeatChart.module.css";
 
-const DUMMY_STUDENTS = [
-  {
-    id: "s1",
-    studentNumber: "1",
-    name: "Burt",
-  },
-  {
-    id: "s2",
-    studentNumber: "2",
-    name: "Sarah",
-  },
-  {
-    id: "s3",
-    studentNumber: "3",
-    name: "Michael",
-  },
-  {
-    id: "s4",
-    studentNumber: "4",
-    name: "Jeff",
-  },
-  {
-    id: "s5",
-    studentNumber: "5",
-    name: "Sally",
-  },
-  {
-    id: "s6",
-    studentNumber: "6",
-    name: "Burt",
-  },
-  {
-    id: "s7",
-    studentNumber: "7",
-    name: "Sarah",
-  },
-  {
-    id: "s8",
-    studentNumber: "8",
-    name: "Michael",
-  },
-  {
-    id: "s9",
-    studentNumber: "9",
-    name: "Jeff",
-  },
-  {
-    id: "s10",
-    studentNumber: "10",
-    name: "Sally",
-  },
-];
+// fake data
+import { DUMMY_STUDENTS } from "../DUMMY_DATA/dummy-students";
 
-const renderDesk = (deskNumber, students, columns) => {
-  const remainingStudents = students.length - deskNumber + 1;
-  // make an array equal to length of columns
+
+const renderDesk = (index, students, columns) => {
+  // create an empty array.
   let rowOfDesks = [];
 
-  console.log(columns, 'columns line 64');
+  // create an index that is constant from row to row
+  const constantIndex = index * columns;
 
+
+  // populate rowOfDesks equal to the length of the each row - using columns
   for (let i = 0; i < columns; i++) {
-    console.log(i, "i on line 67");
-    if (students[deskNumber] !== undefined) {
+    const studentIndex = constantIndex + i;
+    if (students[studentIndex] !== undefined) {
       let desk = (
-        <StudentDesk key={deskNumber}>
+        <StudentDesk key={studentIndex}>
           <StudentCard
-            number={students[deskNumber].studentNumber}
-            name={students[deskNumber].name}
+            number={students[studentIndex].studentNumber}
+            name={students[studentIndex].name}
           />
         </StudentDesk>
       );
       rowOfDesks.push(desk);
+    } else {
+      rowOfDesks.push(<StudentDesk key={studentIndex}>{null}</StudentDesk>);
     }
-    rowOfDesks.push(<StudentDesk key={deskNumber}>{null}</StudentDesk>);
   }
-
-  console.log(rowOfDesks);
-
   return rowOfDesks;
 };
 
 const SeatChart = () => {
-  const [rows, setRows] = useState(4);
-  const [columns, setColumns] = useState(5);
-
-  const numberOfDesks = rows * columns;
+  const [rows, setRows] = useState("5");
+  const [columns, setColumns] = useState("5");
 
   const rowsChangeHandler = (state) => {
     setRows(state.target.value);
@@ -98,7 +47,7 @@ const SeatChart = () => {
     setColumns(state.target.value);
   };
 
-  const totalDesks = [...Array(numberOfDesks)].map((element, index) =>
+  const totalDesks = [...Array(parseInt(rows))].map((element, index) =>
     renderDesk(index, DUMMY_STUDENTS, columns)
   );
 
@@ -130,7 +79,7 @@ const SeatChart = () => {
             gridTemplateRows: `repeat(${rows}, 1fr)`,
           }}
         >
-          {totalDesks}
+          {totalDesks.reverse()}
         </div>
       </div>
     </Fragment>
