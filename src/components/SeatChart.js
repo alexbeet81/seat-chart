@@ -3,27 +3,41 @@ import StudentDesk from "./StudentDesk";
 import StudentCard from "./StudentCard";
 import classes from "./SeatChart.module.css";
 
-const renderDesk = (numberOfStudents, deskNumber) => {
-  // if numberOfStudents <= numberOfDesks
-  // render the desk with a student.
-  // else
-  // render the desk without a student.
-  // calculate remaing desks
-  const remainingStudents = numberOfStudents - deskNumber
+// fake data
+import { DUMMY_STUDENTS } from "../DUMMY_DATA/dummy-students";
 
-  if (remainingStudents >= 1) {
-    return <StudentDesk key={deskNumber}><StudentCard number={deskNumber + 1} name="name" /></StudentDesk>
-  } else {
-    return <StudentDesk key={deskNumber}>{null}</StudentDesk>
+
+const renderDesk = (index, students, columns) => {
+  // create an empty array.
+  let rowOfDesks = [];
+
+  // create an index that is constant from row to row
+  const constantIndex = index * columns;
+
+
+  // populate rowOfDesks equal to the length of the each row - using columns
+  for (let i = 0; i < columns; i++) {
+    const studentIndex = constantIndex + i;
+    if (students[studentIndex] !== undefined) {
+      let desk = (
+        <StudentDesk key={studentIndex}>
+          <StudentCard
+            number={students[studentIndex].studentNumber}
+            name={students[studentIndex].name}
+          />
+        </StudentDesk>
+      );
+      rowOfDesks.push(desk);
+    } else {
+      rowOfDesks.push(<StudentDesk key={studentIndex}>{null}</StudentDesk>);
+    }
   }
+  return rowOfDesks;
 };
 
 const SeatChart = () => {
-  const [rows, setRows] = useState(4);
-  const [columns, setColumns] = useState(5);
-  const [numberOfStudents, setNumberOfStudents] = useState(10);
-
-  const numberOfDesks = rows * columns;
+  const [rows, setRows] = useState("5");
+  const [columns, setColumns] = useState("5");
 
   const rowsChangeHandler = (state) => {
     setRows(state.target.value);
@@ -33,10 +47,9 @@ const SeatChart = () => {
     setColumns(state.target.value);
   };
 
-  const totalDesks = [...Array(numberOfDesks)].map((element, index) => (
-    // <StudentDesk key={index}><StudentCard number={index + 1} name="name" /></StudentDesk>
-    renderDesk(numberOfStudents, index)
-  ));
+  const totalDesks = [...Array(parseInt(rows))].map((element, index) =>
+    renderDesk(index, DUMMY_STUDENTS, columns)
+  );
 
   return (
     <Fragment>
@@ -66,7 +79,7 @@ const SeatChart = () => {
             gridTemplateRows: `repeat(${rows}, 1fr)`,
           }}
         >
-          {totalDesks}
+          {totalDesks.reverse()}
         </div>
       </div>
     </Fragment>
