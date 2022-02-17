@@ -1,6 +1,7 @@
 .studentCard {
   width: 10rem;
   height: 10rem;
+  border-radius: 0.25rem;
   background-color: white;
   display: flex;
   flex-direction: column;

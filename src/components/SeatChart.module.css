@@ -1,6 +1,6 @@
 .container {
   width: 90%;
-  width: 0 auto;
+  margin: auto;
   display: flex;
   align-items: center;
 }
